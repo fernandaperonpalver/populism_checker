@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
+from scipy.stats import ttest_ind
 
 df = pd.read_excel("final_data.xlsx")
 df = df.rename(columns={"Gender": "is_female"})
@@ -42,7 +43,7 @@ city_to_region = {
     "Goiânia": "Centro-Oeste",
     # Sudeste
     "Belo Horizonte": "Sudeste",
-    "Rio De Janeiro": "Sudeste",
+    "Rio de Janeiro": "Sudeste",
     "São Paulo": "Sudeste",
     # Sul
     "Curitiba": "Sul",
@@ -102,6 +103,20 @@ plt.ylabel("Populism Level")
 plt.tight_layout()
 plt.savefig("populism_level_by_region.png")
 
+
+## boxplot of vote share for Lula by region
+regions_order = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"]
+plt.figure(figsize=(10, 6))
+ax = sns.boxplot(
+    x="region", y="lula_vote_share", data=df, order=regions_order, palette="Set3"
+)
+plt.title("Share of votes on the Workers Party by Region")
+plt.xlabel("Region")
+plt.ylabel("Percentage of votes")
+plt.tight_layout()
+plt.savefig("share_votes_region.png")
+
+
 # 3. Regression: populism level ~ is_left + is_incumbent + is_female + city fixed effects
 populism_reg = smf.ols(
     formula="populist_level ~ is_left + is_incumbent + is_female + C(region)", data=df
@@ -110,7 +125,18 @@ populism_reg = smf.ols(
 with open("populism_regression.tex", "w") as f:
     f.write(populism_reg.summary().as_latex())
 
+# 3. Regression: populism level ~ is_left + is_incumbent + is_female + part fixed effects
+populism_reg = smf.ols(
+    formula="populist_level ~ is_left + is_incumbent + is_female + C(region) + + C(Party)",
+    data=df,
+).fit()
+
+with open("populism_regression_party.tex", "w") as f:
+    f.write(populism_reg.summary().as_latex())
+
+
 # 4. Difference of means in populism level for specified groups
+
 group_vars = ["is_incumbent", "was_elected", "is_left", "is_female"]
 diff_means_table = []
 
@@ -119,17 +145,30 @@ for var in group_vars:
     mean_0 = groups.mean().get(0, np.nan)
     mean_1 = groups.mean().get(1, np.nan)
     diff = mean_1 - mean_0
+
+    # Extract the values for the two groups
+    group_0_values = df[df[var] == 0]["populist_level"].dropna()
+    group_1_values = df[df[var] == 1]["populist_level"].dropna()
+
+    # Perform a t-test for independent samples
+    if len(group_0_values) > 1 and len(group_1_values) > 1:
+        t_stat, p_value = ttest_ind(group_0_values, group_1_values, equal_var=False)
+    else:
+        p_value = np.nan  # Not enough data to compute p-value
+
     diff_means_table.append(
         {
             "Variable": var,
             "Group 0 Mean": mean_0,
             "Group 1 Mean": mean_1,
             "Difference": diff,
+            "p-value": p_value,
         }
     )
 
 diff_means_df = pd.DataFrame(diff_means_table)
 diff_means_df.to_latex("difference_means_table.tex", index=False)
+
 
 # 5. Regression: was_elected ~ populist_level + lula_vote_share + is_incumbent + is_female + is_left + city fixed effects
 election_reg = smf.logit(

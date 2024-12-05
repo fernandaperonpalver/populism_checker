@@ -1,25 +1,37 @@
 \begin{center}
 \begin{tabular}{lclc}
 \toprule
-\textbf{Dep. Variable:}    &   was\_elected   & \textbf{  No. Observations:  } &       67    \\
-\textbf{Model:}            &      Logit       & \textbf{  Df Residuals:      } &       61    \\
-\textbf{Method:}           &       MLE        & \textbf{  Df Model:          } &        5    \\
-\textbf{Date:}             & Sat, 30 Nov 2024 & \textbf{  Pseudo R-squ.:     } &   0.2343    \\
-\textbf{Time:}             &     18:38:42     & \textbf{  Log-Likelihood:    } &   -30.590   \\
-\textbf{converged:}        &       True       & \textbf{  LL-Null:           } &   -39.952   \\
-\textbf{Covariance Type:}  &    nonrobust     & \textbf{  LLR p-value:       } &  0.002162   \\
+\textbf{Dep. Variable:}    &   was\_elected   & \textbf{  R-squared:         } &     0.252   \\
+\textbf{Model:}            &       OLS        & \textbf{  Adj. R-squared:    } &     0.191   \\
+\textbf{Method:}           &  Least Squares   & \textbf{  F-statistic:       } &     4.110   \\
+\textbf{Date:}             & Wed, 04 Dec 2024 & \textbf{  Prob (F-statistic):} &  0.00279    \\
+\textbf{Time:}             &     23:14:32     & \textbf{  Log-Likelihood:    } &   -31.952   \\
+\textbf{No. Observations:} &          67      & \textbf{  AIC:               } &     75.90   \\
+\textbf{Df Residuals:}     &          61      & \textbf{  BIC:               } &     89.13   \\
+\textbf{Df Model:}         &           5      & \textbf{                     } &             \\
+\textbf{Covariance Type:}  &    nonrobust     & \textbf{                     } &             \\
 \bottomrule
 \end{tabular}
 \begin{tabular}{lcccccc}
-                           & \textbf{coef} & \textbf{std err} & \textbf{z} & \textbf{P$> |$z$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
+                           & \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{P$> |$t$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
 \midrule
-\textbf{Intercept}         &      -1.5102  &        1.493     &    -1.011  &         0.312        &       -4.437    &        1.416     \\
-\textbf{populist\_level}   &      -1.8886  &        1.622     &    -1.164  &         0.244        &       -5.068    &        1.291     \\
-\textbf{lula\_vote\_share} &       2.6008  &        3.624     &     0.718  &         0.473        &       -4.502    &        9.704     \\
-\textbf{is\_incumbent}     &       2.4179  &        0.786     &     3.075  &         0.002        &        0.877    &        3.959     \\
-\textbf{is\_female}        &      -0.2833  &        1.034     &    -0.274  &         0.784        &       -2.311    &        1.744     \\
-\textbf{is\_left}          &      -2.0458  &        0.948     &    -2.157  &         0.031        &       -3.904    &       -0.187     \\
+\textbf{Intercept}         &       0.2670  &        0.226     &     1.182  &         0.242        &       -0.185    &        0.719     \\
+\textbf{populist\_level}   &      -0.1855  &        0.195     &    -0.953  &         0.344        &       -0.575    &        0.204     \\
+\textbf{lula\_vote\_share} &       0.1785  &        0.512     &     0.348  &         0.729        &       -0.846    &        1.203     \\
+\textbf{is\_incumbent}     &       0.4466  &        0.124     &     3.598  &         0.001        &        0.198    &        0.695     \\
+\textbf{is\_female}        &      -0.0135  &        0.135     &    -0.100  &         0.921        &       -0.283    &        0.256     \\
+\textbf{is\_left}          &      -0.2493  &        0.112     &    -2.230  &         0.029        &       -0.473    &       -0.026     \\
 \bottomrule
 \end{tabular}
-%\caption{Logit Regression Results}
+\begin{tabular}{lclc}
+\textbf{Omnibus:}       &  6.660 & \textbf{  Durbin-Watson:     } &    2.273  \\
+\textbf{Prob(Omnibus):} &  0.036 & \textbf{  Jarque-Bera (JB):  } &    6.891  \\
+\textbf{Skew:}          &  0.770 & \textbf{  Prob(JB):          } &   0.0319  \\
+\textbf{Kurtosis:}      &  2.684 & \textbf{  Cond. No.          } &     14.2  \\
+\bottomrule
+\end{tabular}
+%\caption{OLS Regression Results}
 \end{center}
+
+Notes: \newline
+ [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
